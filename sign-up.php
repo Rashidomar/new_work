@@ -74,7 +74,7 @@
             <div class="page-ath-header"><a href="index-2.html" class="page-ath-logo"><img src="images/logo.png" srcset="images/logo2x.png 2x" alt="logo"></a></div>
             <div class="page-ath-form">
                 <h2 class="page-ath-heading">Sign up <small>Create New TokenWiz Account</small></h2>
-                <form action="#" method="POST">
+                <form action="#" method="POST" id="SignUp_Form">
                     <div class="input-item">
                         <input type="text" placeholder="Full Name" name="fullname" class="input-bordered">
                     </div>
@@ -118,6 +118,8 @@
         </div>
     </div><!-- JavaScript (include all script here) -->
     <script src="assets/js/jquery.bundle7500.js?ver=103"></script>
+    <script src="assets/js/jquery.validate.js"></script>
+    <script src="assets/js/validation.js"></script>
     <script src="assets/js/script7500.js?ver=103"></script>
 </body>
 <!-- Mirrored from demo.themenio.com/tokenwiz/sign-up.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 01 Feb 2019 16:49:32 GMT -->
