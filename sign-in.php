@@ -79,7 +79,7 @@
             <div class="page-ath-header"><a href="index-2.html" class="page-ath-logo"><img src="images/logo.png" srcset="images/logo2x.png 2x" alt="logo"></a></div>
             <div class="page-ath-form">
                 <h2 class="page-ath-heading">Sign in <small>with your TokenWiz Account</small></h2>
-                <form action="" method="POST">
+                <form action="" method="POST" id="SignIn_Form">
                     <div class="input-item">
                         <input type="text" name="username" placeholder="Your Username" class="input-bordered">
                     </div>
@@ -88,7 +88,7 @@
                     </div>
                     <div class="d-flex justify-content-between align-items-center">
                         <div class="input-item text-left">
-                            <input class="input-checkbox input-checkbox-md" id="remember-me" type="checkbox">
+                            <input class="input-checkbox input-checkbox-md" id="remember-me" type="checkbox" >
                             <label for="remember-me">Remember Me</label>
                         </div>
                         <div><a href="forgot.html">Forgot password?</a>
@@ -122,6 +122,8 @@
         </div>
     </div><!-- JavaScript (include all script here) -->
     <script src="assets/js/jquery.bundle7500.js?ver=103"></script>
+    <script src="assets/js/jquery.validate.js"></script>
+    <script src="assets/js/validation.js"></script>
     <script src="assets/js/script7500.js?ver=103"></script>
 </body>
 <!-- Mirrored from demo.themenio.com/tokenwiz/sign-in.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 01 Feb 2019 16:49:24 GMT -->
