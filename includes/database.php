@@ -3,7 +3,7 @@
 
     class MySqlDatabase{
 
-    private $connection;
+    public $connection;
 
     public function __construct()
     {
@@ -12,37 +12,25 @@
 
     public function open_conection()
     {
-       $this->connection = mysqli_connect(DB_SERVER,DB_USER, DB_PASSWORD, DB_NAME);
-       if($this->connection)
-       {
-           #echo "OK;";
-
-       }else{
-           echo "Failed :" . mysqli_error($this->connection);
-       }
+         if (!isset($this->connection)) {
+            $this->connection = new mysqli(DB_SERVER,DB_USER, DB_PASSWORD, DB_NAME);
+             
+             if (!$this->connection) {
+                 echo 'Cannot connect to database server';
+                 exit;
+             }           
+         }    
+         
+         return $this->connection;
+    
     }
     
     public function query($query)
     {
-        $result = mysqli_query($this->connection, $query);
+        $result = $this->connection->query($query);
 
         return $result;
     }
-
-    public function fetch_array($result)
-    {
-        $result = mysqli_fetch_array($result);
-
-        return $result;
-    }
-
-    public function num_rows($result)
-    {
-        $result = mysqli_num_rows($result);
-
-        return $result;
-    }
-
 
     }
 

@@ -1,3 +1,23 @@
+<?php
+require_once "includes/sessions.php";
+
+$session = new Session();
+
+
+if(isset($_GET["link"]))
+{
+   $link = $_GET["link"];
+
+   if($link == "logout")
+   {
+      $result = $session->logout();
+      if($result == false){
+         header('Location: sign-in.php');
+      }
+   }
+}
+
+?>
 <!DOCTYPE html>
 <html lang="zxx" class="js">
    
@@ -31,26 +51,31 @@
                      <!-- .topbar-nav-item -->
                   </ul>
                   <!-- .topbar-nav --><a class="topbar-logo" href="index.html"><img src="images/logo1.png" srcset="images/logo1.png 2x" alt="logo"></a>
-                  <ul class="topbar-nav">
-                     <li class="topbar-nav-item relative">
-                        <span class="user-welcome d-none d-lg-inline-block">Welcome! Stefan Harary</span><a class="toggle-tigger user-thumb" href="#"><em class="ti ti-user"></em></a>
-                        <div class="toggle-class dropdown-content dropdown-content-right dropdown-arrow-right user-dropdown">
-                           <div class="user-status">
-                              <h6 class="user-status-title">Balance</h6>
-                              <div class="user-status-balance">12,000,000 <small>TWZ</small></div>
+                  <?php 
+                     if($session->is_logged_in())
+                     {
+                        echo '<ul class="topbar-nav">
+                        <li class="topbar-nav-item relative">
+                           <span class="user-welcome d-none d-lg-inline-block">Welcome! '.$session->username .'</span><a class="toggle-tigger user-thumb" href="#"><em class="ti ti-user"></em></a>
+                           <div class="toggle-class dropdown-content dropdown-content-right dropdown-arrow-right user-dropdown">
+                              <div class="user-status">
+                                 <h6 class="user-status-title">Balance</h6>
+                                 <div class="user-status-balance">12,000,000 <small>TWZ</small></div>
+                              </div>
+                              <ul class="user-links">
+                                 <li><a href="profile.html"><i class="ti ti-id-badge"></i>My Profile</a></li>
+                                 <li><a href="#"><i class="ti ti-infinite"></i>Referral</a></li>
+                                 <li><a href="#"><i class="ti ti-eye"></i>Activity</a></li>
+                              </ul>
+                              <ul class="user-links bg-light">
+                                 <li><a href="index.php?link=logout"><i class="ti ti-power-off"></i>Logout</a></li>
+                              </ul>
                            </div>
-                           <ul class="user-links">
-                              <li><a href="profile.html"><i class="ti ti-id-badge"></i>My Profile</a></li>
-                              <li><a href="#"><i class="ti ti-infinite"></i>Referral</a></li>
-                              <li><a href="#"><i class="ti ti-eye"></i>Activity</a></li>
-                           </ul>
-                           <ul class="user-links bg-light">
-                              <li><a href="sign-in.html"><i class="ti ti-power-off"></i>Logout</a></li>
-                           </ul>
-                        </div>
-                     </li>
-                     <!-- .topbar-nav-item -->
-                  </ul>
+                        </li>
+                        <!-- .topbar-nav-item -->
+                     </ul>';
+                     }
+                  ?>
                   <!-- .topbar-nav -->
                </div>
             </div>

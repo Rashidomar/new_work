@@ -7,19 +7,32 @@
     $user = new User();
     $session = new Session();
 
-
-	if(isset($_POST['submit']))
+    if(isset($_POST['LogIn']))
 	{
         
 		$username = $_POST['username'];
         $password = $_POST['password'];
         
-        $found_user = $user->user_login($username, $password);
-        
+        $found_user = $user->user_authenticate($username, $password);
+
         if($found_user){
-            $id = $session->login($username);
-            
-            if($id){
+
+            foreach ($found_user as $user_detail) 
+            {
+                $user_detail['id'];
+                $user_detail['username'];
+    
+            }
+    
+            $user_id = $user_detail['id'];
+    
+            $username = $user_detail['username'];
+    
+
+            $session_values = $session->create_session($user_id, $username);
+
+            if($session_values['id'] && $session_values['username']){
+                
                 header('Location: index.php');	
             }
 
@@ -28,6 +41,7 @@
         }
 
 	}
+
 
 ?>
 <!DOCTYPE html>
@@ -81,7 +95,7 @@
                             <div class="gaps-2x"></div>
                         </div>
                     </div>
-                    <input type="submit" name="submit" value="Sign In" class="btn btn-primary btn-block">
+                    <input type="submit" name="LogIn" value="Sign In" class="btn btn-primary btn-block">
                     <!-- <input type="submit" value="Log In" name="submit" > -->
                 </form>
                 <div class="sap-text"><span>Or Sign In With</span></div>

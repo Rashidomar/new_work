@@ -2,76 +2,83 @@
 <?php
 require_once "database.php";
 
-
 class User{
-
-
-    public function find_by_sql($sql=""){
-        global $database;
-        $result_set = $database->query($sql);
-        return $result_set;
-
-    }
-
-
-    public function find_all(){
-        global $database;
-        $result_set = $database->$this->find_by_sql("SELECT * FROM users");
-        return $result_set;
-
-    }
-
-    public function find_by_id($id=0){
-        global $database;
-        $result_set = $database->$this->find_by_sql("SELECT * FROM users WHERE id='$id'");
-        $found = $database->fetch_array($result_set);
-        return $found;
-
-    }
-
-    public function user_login($username, $password)
+    public function user_authenticate($username, $password)
     {
         global $database;
-        $enc_password = md5($password);
-       
-        $query = "SELECT * FROM users WHERE username = '$username' AND password = '$enc_password'";
+        //$enc_password = md5($password);
 
-        $result = $database->query($query);
+        $stmt = $database->connection->prepare("SELECT * FROM `users` WHERE `username` = ? AND `password` = ?");
 
-        return $result;
+        $stmt->bind_param('ss', $username, $password);
 
-    }
+        if($stmt->execute()){
+            $result = $stmt->get_result();    
+            return $result;
+        }
 
+}
 
 
     public function check_user($username, $email)
     {
         global $database;
-        
-        $query = "SELECT * FROM users WHERE username = '$username' OR email= '$email' "; 
 
-        $check = $database->query($query);
+        $stmt = $database->connection->prepare("SELECT * FROM `users` WHERE `username` = ? AND `email` = ?");
 
-        $result = $database->num_rows($check);
+        $stmt->bind_param('ss', $username, $email);
 
-        return $result;
+        if($stmt->execute()){
+            $result = $stmt->get_result();    
+            return $result;
+        }
     }
 
     public function user_register($username, $fullname, $email, $password)
     {
-        global $database;
+         global $database;
+         
+         $enc_password = md5($password);
 
-        // $enc_password = md5($password);
-
-        $query = "INSERT INTO users VALUES ('','$username','$fullname','$email','$password')";
-
-        $result = $database->query($query);
-
-        return $result;
+        $stmt = $database->connection->prepare("INSERT INTO `users` (`username`, `fullname`, `email`, `password`) VALUES (?,?,?,?)");
+        $stmt->bind_param('ssss', $username, $fullname, $email, $enc_password);
+        if($stmt->execute()){
+            $stmt->close(); 
+            return true;
+            
+        }
 
     }
 
-    
 }
+
+//$ps = "202cb962ac59075b964b07152d234b70";
+
+//$user = new User();
+
+// $result = $user->user_register("omar", "rashid", "omar@mail", "123");
+
+// if($result)
+// {
+//     echo var_dump($result);
+// }
+
+//$user->user_authenticate("omar", "123");
+
+// if($results)
+// {
+//      echo "hello world" . "<br>";;
+
+//      var_dump($results) . "<br>";
+//     // while($results)
+//     // {
+//     //     echo $results["id"];
+//     //     echo $results["username"];
+//     // }
+
+//     // print_r($results);
+// }
+
+
 
 ?>
