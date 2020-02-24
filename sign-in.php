@@ -1,11 +1,12 @@
 
 <?php
-    #require_once "../../includes/database.php";
     require_once "includes/user.php";
     require_once "includes/sessions.php";
 
     $user = new User();
     $session = new Session();
+
+    $errors = array();
 
     if(isset($_POST['LogIn']))
 	{
@@ -17,27 +18,25 @@
 
         if($found_user){
 
-            foreach ($found_user as $user_detail) 
-            {
-                $user_detail['id'];
-                $user_detail['username'];
-    
+            $user_id = "";
+
+            $username = "";
+
+            while($user_detail = $found_user->fetch_assoc())
+            {    
+               $user_id = $user_detail["id"];
+               $username = $user_detail["username"];
             }
-    
-            $user_id = $user_detail['id'];
-    
-            $username = $user_detail['username'];
-    
 
             $session_values = $session->create_session($user_id, $username);
 
             if($session_values['id'] && $session_values['username']){
-                
+
                 header('Location: index.php');	
             }
 
         }else{
-            echo "Wrong Username and password";
+            $errors[] = "Wrong Username and password";
         }
 
 	}
@@ -55,8 +54,8 @@
     <meta name="description" content="Fully featured and complete ICO Dashboard template for ICO backend management."><!-- Fav Icon -->
     <link rel="shortcut icon" href="images/favicon.png"><!-- Site Title  -->
     <title>TokenWiz - ICO User Dashboard Admin Template</title><!-- Vendor Bundle CSS -->
-    <link rel="stylesheet" href="assets/css/vendor.bundle7500.css?ver=103">
-    <link rel="stylesheet" href="assets/css/style7500.css?ver=103" id="layoutstyle">
+    <!-- <link rel="stylesheet" href="assets/css/vendor.bundle7500.css?ver=103">
+    <link rel="stylesheet" href="assets/css/style7500.css?ver=103" id="layoutstyle"> -->
     <!-- <script>
         (function(i, s, o, g, r, a, m) {
             i['GoogleAnalyticsObject'] = r;
@@ -94,6 +93,15 @@
                         <div><a href="forgot.html">Forgot password?</a>
                             <div class="gaps-2x"></div>
                         </div>
+                        <?php
+                            if ($errors) {
+                                foreach ($errors as $error) {
+                                    echo "<div class='alert alert-primary' role='alert'>"
+                                    .$error 
+                                    ."</div>";
+                                }
+                            }
+                        ?>
                     </div>
                     <input type="submit" name="LogIn" value="Sign In" class="btn btn-primary btn-block">
                     <!-- <input type="submit" value="Log In" name="submit" > -->
@@ -121,10 +129,10 @@
             </div>
         </div>
     </div><!-- JavaScript (include all script here) -->
-    <script src="assets/js/jquery.bundle7500.js?ver=103"></script>
+    <!-- <script src="assets/js/jquery.bundle7500.js?ver=103"></script>
     <script src="assets/js/jquery.validate.js"></script>
     <script src="assets/js/validation.js"></script>
-    <script src="assets/js/script7500.js?ver=103"></script>
+    <script src="assets/js/script7500.js?ver=103"></script> -->
 </body>
 <!-- Mirrored from demo.themenio.com/tokenwiz/sign-in.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 01 Feb 2019 16:49:24 GMT -->
 

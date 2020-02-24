@@ -5,7 +5,8 @@
     require_once "includes/sessions.php";
 
     $user = new User();
-    //$session = new Session();
+
+    $errors = array();
 
 	if(isset($_POST['submit']))
 	{
@@ -17,24 +18,22 @@
 
         $found = $user->check_user($username, $email);
 
-        if($found == 0)
+        if($found->num_rows === 0)
         {
-           $new_user = $user->user_register($username, $fullname, $email, $password);
+           $new_user = $user->user_register($fullname,$username, $email, $password);
+
            if($new_user)
            {
-    
-            header('Location: signup-success.php');
+                header('Location: signup-success.php');
     
            }else{
     
-            echo "Unsuccessful... Something went wrong...";
-        }
+                $errors[] = "Unsuccessful... Something went wrong.";
+            }
         }else{
     
-            echo "Username and email already exist.........";
+            $errors[] = "Username and Email already exist";
         }
-    
-    
 
 	}
 
@@ -87,12 +86,16 @@
                     <div class="input-item">
                         <input type="password" placeholder="Password" name="password" class="input-bordered">
                     </div>
-                    <!-- <div class="input-item text-left">
-                        <input class="input-checkbox input-checkbox-md" id="term-condition" type="checkbox"><label for="term-condition">I agree to TokenWiz’s <a href="regular-page.html">Privacy Policy</a> &amp; <a href="regular-page.html"> Terms.</a></label>
-                    </div> -->
+                    <?php
+                            if ($errors) {
+                                foreach ($errors as $error) {
+                                     echo "<div class='alert alert-primary' role='alert'>"
+                                    .$error 
+                                    ."</div>";
+                                }
+                            }
+                        ?>
                     <input type="submit" name="submit" value="Create Account" class="btn btn-primary btn-block">
-                    
-                    <!-- <button class="btn btn-primary btn-block">Create Account</button> -->
                 </form>
                 <div class="sap-text"><span>Or Sign Up With</span></div>
                 <ul class="row guttar-20px guttar-vr-20px">

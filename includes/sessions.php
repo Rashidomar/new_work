@@ -58,7 +58,7 @@
 
     // $session = new Session();
 
-    // $session->login('omar');
+    // $session->create_session(1, 'omar');
     // //$session->logout();
     // if($session->is_logged_in())
     // {

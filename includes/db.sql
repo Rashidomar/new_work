@@ -4,8 +4,8 @@ USE `test`;
 
 CREATE TABLE IF NOT EXISTS `users` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
-  `username` varchar(40) NOT NULL,
   `fullname` varchar(40) NOT NULL,
+  `username` varchar(40) NOT NULL,
   `email` varchar(40) NOT NULL,
   `password` varchar(40) NOT NULL,
   PRIMARY KEY (`id`)

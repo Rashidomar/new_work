@@ -1,23 +1,28 @@
 
 <?php
 require_once "database.php";
+require_once "sessions.php";
 
 class User{
+
     public function user_authenticate($username, $password)
     {
         global $database;
-        //$enc_password = md5($password);
+
+        $enc_password = md5($password);
 
         $stmt = $database->connection->prepare("SELECT * FROM `users` WHERE `username` = ? AND `password` = ?");
 
-        $stmt->bind_param('ss', $username, $password);
+        $stmt->bind_param('ss', $username, $enc_password);
 
         if($stmt->execute()){
-            $result = $stmt->get_result();    
+
+            $result = $stmt->get_result();
+
             return $result;
         }
 
-}
+    }
 
 
     public function check_user($username, $email)
@@ -29,19 +34,23 @@ class User{
         $stmt->bind_param('ss', $username, $email);
 
         if($stmt->execute()){
-            $result = $stmt->get_result();    
+
+            $result = $stmt->get_result();
+
             return $result;
         }
     }
 
-    public function user_register($username, $fullname, $email, $password)
+    public function user_register($fullname,$username, $email, $password)
     {
          global $database;
          
          $enc_password = md5($password);
 
-        $stmt = $database->connection->prepare("INSERT INTO `users` (`username`, `fullname`, `email`, `password`) VALUES (?,?,?,?)");
-        $stmt->bind_param('ssss', $username, $fullname, $email, $enc_password);
+        $stmt = $database->connection->prepare("INSERT INTO `users` (`fullname`,`username`,`email`, `password`) VALUES (?,?,?,?)");
+
+        $stmt->bind_param('ssss', $fullname,$username,$email, $enc_password);
+
         if($stmt->execute()){
             $stmt->close(); 
             return true;
@@ -52,9 +61,10 @@ class User{
 
 }
 
-//$ps = "202cb962ac59075b964b07152d234b70";
+// $user = new User();
+// $session = new Session();
 
-//$user = new User();
+// $errors = array();
 
 // $result = $user->user_register("omar", "rashid", "omar@mail", "123");
 
@@ -63,22 +73,32 @@ class User{
 //     echo var_dump($result);
 // }
 
-//$user->user_authenticate("omar", "123");
+// $found_user = $user->user_authenticate("omar", 123);
 
-// if($results)
+// if($found_user)
 // {
-//      echo "hello world" . "<br>";;
+//     $user_id = "";
+//     $username = "";
+//     while($results = $found_user->fetch_assoc())
+//     {
+//         $user_id = $results["id"];
+//         $username = $results["username"];
+//     }
 
-//      var_dump($results) . "<br>";
-//     // while($results)
-//     // {
-//     //     echo $results["id"];
-//     //     echo $results["username"];
-//     // }
+//     echo $user_id . "<br>";
+    
+//     echo $username;
 
-//     // print_r($results);
+//     $session_values = $session->create_session($user_id, $username);
+
+//     if($session_values['id'] && $session_values['username']){
+         
+//         header('Location: ../index.php');	
+//     }else{
+
+//         $errors[] = "wrong username and password";
+//     }
+
 // }
-
-
 
 ?>
